@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>天气预报</title>
+	<style type="text/css">
+		table{
+			width: 600px;
+			border-collapse: collapse;
+		}
+		td{
+			height: 40px;
+			text-align: center;
+			border: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+ <table>
+ 	
+ </table>
+
+ <script src='jquery.min.js'></script>
+ <script src='template-native.js'></script>
+
+ <script>
+ 	$.ajax({
+ 		type:'get',
+ 		url: 'http://api.map.baidu.com/telematics/v3/weather',
+ 		data: {ak: '0A5bc3c4fb543c8f9bc54b77bc155724',location:'北京',output:'json'},
+ 		dataType:'jsonp',
+
+ 		success:function(data){
+ 			console.log(data);
+ 			var info = data.results[0];
+
+ 			var html = template('tpl',info);
+
+ 			$('table').append(html);         
+ 		}
+ 	})
+ </script>
+
+ <script type="text/template" id='tpl'>
+ <% for(var i=0;i<weather_data.length;i++){ %>
+ 	<tr>
+ 		<td><%= weather_data[i].date %></td>
+ 		<td><img src="<%= weather_data[i].dayPictureUrl %>"></td>
+ 		<td><img src="<%= weather_data[i].nightPictureUrl %>"></td>
+ 		<td><%= weather_data[i].temperature %></td>
+ 		<td><%= weather_data[i].weather %></td>
+ 		<td><%= weather_data[i].wind %></td>
+ 	</tr>
+ <% } %>
+ </script>
+	
+</body>
+</html>
